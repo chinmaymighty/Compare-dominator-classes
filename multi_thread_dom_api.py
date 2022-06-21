@@ -105,7 +105,7 @@ if __name__ == '__main__':
 		shallow_heap = int(shallow_heap)
 		retained_heap = int(retained_heap)
 		baseline_row = list(map(float, baseline.get(className, [0,0,0,0.0])))
-		new_row = [className, objects, objects - baseline_row[0], shallow_heap, shallow_heap - baseline_row[1], retained_heap, retained_heap - baseline_row[2], round(percentage, 3), round(percentage - baseline_row[3], 3)]
+		new_row = [className, objects, int(objects - baseline_row[0]), shallow_heap, int(shallow_heap - baseline_row[1]), retained_heap, int(retained_heap - baseline_row[2]), round(percentage, 3), round(percentage - baseline_row[3], 3)]
 		table.add_row(new_row)
 	print("-"*100)
 	print("DOMINATOR TREE COMPARISON TABLE: ")
@@ -120,7 +120,7 @@ if __name__ == '__main__':
 
 	#Add data to baseline
 	add_data_to_baseline(all_data, baseline)
-	
+
 	print('*'*100)
 	print('*'*100)
 	print('Elapsed time: ', time.process_time() - t)
