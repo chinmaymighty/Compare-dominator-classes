@@ -1,0 +1,116 @@
+Enter the absolute path to heap_dump: Running dominator_tree command using MAT api.
+Enter the baseline file path: Task: Parsing HeapDumpSample1.hprof
+[Task: Parsing /Applications/mat.app/Contents/MacOS/workspace/.metadata/.plugins/org.eclipse.mat.ui/org.eclipse.mat.ui.help/heapdump/HeapDumpSample1.hprof
+[
+Subtask: Scanning /Applications/mat.app/Contents/MacOS/workspace/.metadata/.plugins/org.eclipse.mat.ui/org.eclipse.mat.ui.help/heapdump/HeapDumpSample1.hprof
+[....................
+[INFO] Heap /Applications/mat.app/Contents/MacOS/workspace/.metadata/.plugins/org.eclipse.mat.ui/org.eclipse.mat.ui.help/heapdump/HeapDumpSample1.hprof contains 26,001 objects
+[....................
+Subtask: Extracting objects from /Applications/mat.app/Contents/MacOS/workspace/.metadata/.plugins/org.eclipse.mat.ui/org.eclipse.mat.ui.help/heapdump/HeapDumpSample1.hprof
+[................................................................................Task: Removing unreachable objects
+[
+Subtask: Searching for unreachable objects
+[
+Subtask: Marking reachable objects
+[.
+Subtask: Re-indexing objects
+[.
+[INFO] Removed 3,826 unreachable objects using 527,760 bytes
+[..
+Subtask: Re-indexing classes
+[...
+Subtask: Writing /Applications/mat.app/Contents/MacOS/workspace/.metadata/.plugins/org.eclipse.mat.ui/org.eclipse.mat.ui.help/heapdump/HeapDumpSample1.idx.index
+[....
+Subtask: Writing /Applications/mat.app/Contents/MacOS/workspace/.metadata/.plugins/org.eclipse.mat.ui/org.eclipse.mat.ui.help/heapdump/HeapDumpSample1.o2c.index
+[.....
+Subtask: Writing /Applications/mat.app/Contents/MacOS/workspace/.metadata/.plugins/org.eclipse.mat.ui/org.eclipse.mat.ui.help/heapdump/HeapDumpSample1.a2s.index
+[......
+Subtask: Re-indexing outbound index
+[.......
+Subtask: Writing /Applications/mat.app/Contents/MacOS/workspace/.metadata/.plugins/org.eclipse.mat.ui/org.eclipse.mat.ui.help/heapdump/HeapDumpSample1.inbound.index
+[........
+Subtask: Writing /Applications/mat.app/Contents/MacOS/workspace/.metadata/.plugins/org.eclipse.mat.ui/org.eclipse.mat.ui.help/heapdump/HeapDumpSample1.outbound.index
+[.........
+Subtask: Writing /Applications/mat.app/Contents/MacOS/workspace/.metadata/.plugins/org.eclipse.mat.ui/org.eclipse.mat.ui.help/heapdump/HeapDumpSample1.o2hprof.index
+[.........Task: Calculating Dominator Tree
+[
+Subtask: Dominator Tree calculation
+[
+Subtask: Depth-first search
+[....................
+Subtask: Computing dominators
+[..............................................
+Subtask: Calculate retained sizes
+[............................................................
+Subtask: Create dominators index file
+[................................................................................]
+
+Subtask: Single Query
+[
+Subtask: Test 'Query Command' of section 'Single Query'
+[
+Length:  311
+
+Thread OVER:  311
+----------------------------------------------------------------------------------------------------
+DOMINATOR TREE COMPARISON TABLE: 
++----------------------------------------------------------+---------+--------------+--------------+-------------------+---------------+--------------------+------------+-----------------+
+|                        ClassName                         | Objects | Objects(S-B) | Shallow Heap | Shallow Heap(S-B) | Retained Heap | Retained Heap(S-B) | Percentage | Percentage(S-B) |
++----------------------------------------------------------+---------+--------------+--------------+-------------------+---------------+--------------------+------------+-----------------+
+|                     java.lang.Class                      |   1903  |     532      |    22192     |        4731       |     385608    |       69359        |   41.302   |      14.825     |
+|                     java.lang.Thread                     |    14   |      5       |     1456     |        -20        |     100864    |      -9714657      |   10.803   |      3.785      |
+|              javax.swing.UIManager$LAFState              |    1    |      1       |      40      |         26        |     44456     |       15968        |   4.762    |       1.71      |
+|           com.sun.jmx.mbeanserver.PerInterface           |    11   |      11      |     352      |        137        |     41704     |       14980        |   4.467    |      1.603      |
+|                 javax.swing.JTabbedPane                  |    1    |      1       |     360      |        138        |     30128     |       10824        |   3.227    |      1.158      |
+|                   java.io.PrintStream                    |    1    |      1       |      32      |         0         |     25072     |        1286        |   2.685    |      0.963      |
+| com.sun.jmx.mbeanserver.OpenConverter$CompositeConverter |    7    |      7       |     280      |        110        |     24688     |        8873        |   2.644    |      0.949      |
+|                     java.lang.String                     |   444   |    -36936    |    10656     |      -886699      |     24592     |    -2939820066     |   2.634    |     -26.681     |
+|                  sun.net.www.MimeTable                   |    1    |      1       |      16      |         16        |     23616     |        8487        |   2.529    |      0.906      |
+|                sun.security.provider.Sun                 |    1    |      1       |      88      |         40        |     16720     |        6012        |   1.791    |      0.643      |
+|            sun.awt.windows.WDesktopProperties            |    1    |      1       |      32      |         24        |     15256     |        5487        |   1.634    |      0.588      |
+|                  sun.font.CompositeFont                  |    20   |      20      |     1760     |        644        |     12456     |        4482        |   1.334    |      0.477      |
+|                          char[]                          |   143   |      62      |    11088     |        3990       |     11088     |        3990        |   1.188    |      0.427      |
+|               java.lang.ref.SoftReference                |    45   |      28      |     1440     |        526        |     10720     |        3858        |   1.148    |      0.412      |
+|               java.util.logging.LogManager               |    1    |      1       |      40      |         26        |      8208     |        2957        |   0.879    |      0.316      |
+|                          int[]                           |    15   |      15      |     7560     |        2723       |      7560     |        2723        |    0.81    |       0.29      |
+|                    sun.misc.MetaIndex                    |    8    |      8       |     128      |         56        |      7496     |        2700        |   0.803    |      0.289      |
+|  com.sun.jmx.interceptor.DefaultMBeanServerInterceptor   |    1    |      1       |      40      |         26        |      7040     |        2536        |   0.754    |      0.271      |
+|               javax.management.ObjectName                |    19   |      19      |     608      |        228        |      6104     |        2199        |   0.654    |      0.235      |
+|           javax.management.MBeanOperationInfo            |    16   |      16      |     640      |        239        |      5528     |        1992        |   0.592    |      0.212      |
+|                 java.lang.reflect.Method                 |    47   |      28      |     3760     |        1359       |      5296     |        1911        |   0.567    |      0.204      |
+|           javax.management.MBeanAttributeInfo            |    46   |      28      |     1472     |        540        |      4784     |        1729        |   0.512    |      0.184      |
+| javax.management.openmbean.OpenMBeanAttributeInfoSupport |    32   |      24      |     1792     |        651        |      4672     |        1686        |    0.5     |      0.178      |
+|         javax.management.openmbean.CompositeType         |    7    |      7       |     336      |        130        |      4416     |        1594        |   0.473    |      0.171      |
+|               sun.font.TrueTypeGlyphMapper               |    3    |      3       |      96      |         43        |      4224     |        1526        |   0.452    |      0.162      |
+|             sun.misc.Launcher$ExtClassLoader             |    1    |      1       |      72      |         35        |      4224     |        1526        |   0.452    |      0.162      |
+|   com.sun.jmx.remote.internal.ArrayNotificationBuffer    |    1    |      1       |      56      |         31        |      4208     |        1520        |   0.451    |      0.162      |
+|            sun.awt.windows.WFontConfiguration            |    1    |      1       |      88      |         40        |      4128     |        1492        |   0.442    |      0.159      |
+|                    java.util.HashMap                     |    2    |      2       |      80      |         38        |      3384     |        1225        |   0.362    |       0.13      |
+|           javax.management.openmbean.ArrayType           |    8    |      8       |     384      |        147        |      2928     |        1061        |   0.314    |      0.113      |
+|              sun.management.MemoryPoolImpl               |    7    |      7       |     336      |        130        |      2816     |        1022        |   0.302    |      0.107      |
+|                  sun.font.TrueTypeFont                   |    3    |      3       |     408      |        156        |      2632     |        954         |   0.282    |       0.1       |
+|                 java.lang.ref.Finalizer                  |    60   |      32      |     1920     |        697        |      2592     |        941         |   0.278    |      0.099      |
+|             sun.misc.Launcher$AppClassLoader             |    1    |      1       |      72      |         35        |      2224     |        808         |   0.238    |      0.085      |
+|         sun.reflect.DelegatingMethodAccessorImpl         |    15   |      15      |     240      |         95        |      2184     |        794         |   0.234    |      0.085      |
+|                 java.util.logging.Logger                 |    29   |      23      |     1856     |        675        |      2112     |        766         |   0.226    |      0.082      |
+|                sun.awt.image.ToolkitImage                |    1    |      1       |      48      |         28        |      2064     |        751         |   0.221    |       0.08      |
+|                      java.awt.Font                       |    18   |      18      |     1152     |        421        |      1592     |        581         |   0.171    |      0.061      |
+|                    sun.awt.AppContext                    |    1    |      1       |      56      |         31        |      1568     |        572         |   0.168    |      0.059      |
+|                    java.lang.Class[]                     |    61   |      32      |     1456     |        521        |      1456     |        521         |   0.156    |      0.057      |
+|           com.sun.jmx.mbeanserver.MXBeanLookup           |    1    |      1       |      24      |         21        |      1384     |        506         |   0.148    |      0.053      |
+|          javax.management.MBeanAttributeInfo[]           |    1    |      1       |      40      |         26        |      1352     |        494         |   0.145    |      0.052      |
+|              java.lang.reflect.Constructor               |    2    |      2       |     128      |         56        |      1344     |        491         |   0.144    |      0.052      |
+|               sun.java2d.loops.SurfaceType               |    56   |      31      |     1344     |        491        |      1344     |        491         |   0.144    |      0.052      |
+|                          long[]                          |    2    |      2       |     1336     |        490        |      1336     |        490         |   0.143    |      0.052      |
+|                  java.util.jar.JarFile                   |    4    |      4       |     192      |         78        |      1312     |        481         |   0.141    |      0.052      |
+|              java.awt.image.IndexColorModel              |    1    |      1       |      88      |         40        |      1304     |        478         |    0.14    |      0.051      |
+|                sun.font.FontDesignMetrics                |    1    |      1       |      72      |         35        |      1272     |        465         |   0.136    |      0.049      |
+|                javax.management.MBeanInfo                |    10   |      10      |     480      |        182        |      1224     |        450         |   0.131    |      0.047      |
+|          javax.management.openmbean.TabularType          |    2    |      2       |      96      |         43        |      1192     |        435         |   0.128    |      0.046      |
++----------------------------------------------------------+---------+--------------+--------------+-------------------+---------------+--------------------+------------+-----------------+
+----------------------------------------------------------------------------------------------------
+
+Enter the number of top classes to compare: ****************************************************************************************************
+****************************************************************************************************
+Elapsed time:  0.01936099999999999
+Elapsed total time:  2.216193914413452
