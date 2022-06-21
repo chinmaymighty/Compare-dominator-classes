@@ -2,12 +2,13 @@ import csv
 import os
 import glob
 from prettytable import PrettyTable
-import operator
+from operator import itemgetter
 import threading
 import time
 
 ordinal = lambda n: "%d%s" % (n,"tsnrhtdd"[(n//10%10!=1)*(n%10<4)*n%10::4])
 
+#Function to load baseline from file taken from input and store in a dict
 def load_baseline():
 	baseline = {}
 	global baseline_path
@@ -21,24 +22,12 @@ def load_baseline():
 		count = int(next(csvr)[0])
 		for row in csvr:
 			baseline[row[0]] = row[1:5]
-			# baseline[row[0]][3] = float(baseline[row[0]][3])/100
 	return baseline
 
+#Function to update baseline as average for each entry
 def add_data_to_baseline(data, baseline):
 	global count
 	global baseline_path
-	# for val in data:
-	# 	key = val[0]
-	# 	base = [0,0,0,0.0]
-	# 	if key in baseline:
-	# 		base = list(map(float, baseline[key]))
-	# 	print(val, base, len(base))
-	# 	for i in range(4):
-	# 		base[i]*=count
-	# 		base[i]+= float(val[i+1])
-	# 		# print(val[i])
-	# 		base[i]/=(1 + count)
-	# 	baseline[key] = base
 	hash_val = {ele[0]:ele[1:] for ele in data}
 	for val in data:
 		if val[0] not in baseline:
@@ -51,8 +40,7 @@ def add_data_to_baseline(data, baseline):
 			value[i]/=(1+count)
 		baseline[key] = value
 	count += 1
-	print('baseline')
-	print(baseline)
+	# print('baseline', baseline)
 	sorted_total = sorted(baseline.items(), key = lambda x: x[1][3], reverse = True)
 	with open(baseline_path, 'w') as f:
 		csvr = csv.writer(f)
@@ -63,8 +51,8 @@ def add_data_to_baseline(data, baseline):
 			lis = [row[0], int(row[1][0]), int(row[1][1]), int(row[1][2]), round(float(row[1][3]), 3)]
 			csvr.writerow(lis)
 
-
-def Dom_api(all_data):
+# Worker thread function to execute dominator tree for the given 
+def Dom_api(heap_filename, all_data):
 	print('Running dominator_tree command using MAT api.')
 	os.system('/Applications/mat.app/Contents/Eclipse/ParseHeapDump.sh '+heap_filename+' -command="dominator_tree -groupBy BY_CLASS" -format=csv -unzip org.eclipse.mat.api:query')
 	csv_folder = heap_filename[:-6] + '_Query/pages'
@@ -98,21 +86,18 @@ if __name__ == '__main__':
 		os._exit(-1)
 	all_data = []
 	#Call Thread to run dominator_tree api
-	dom_thread = threading.Thread(target = Dom_api, name = 'dom_thread', args = (all_data,))
+	dom_thread = threading.Thread(target = Dom_api, name = 'dom_thread', args = (heap_filename, all_data,))
 	dom_thread.start()
 	baseline = {}
 	baseline = load_baseline()
-	print("\nBaseline: ")
-	# print(baseline)
-	
-	# sort baseline and all_data
-	# sorted_baseline = sorted(baseline.items(), key = lambda x: x[1][3], reverse = True)
-	# all_data.sort(key = lambda x: (x[1][1], x[1][0]), reverse = True) -- Not necessary since input from mat is sorted
+	# print("\nBaseline: ", baseline)
 	# Print tablular output
 	table = PrettyTable(['ClassName', 'Objects', 'Objects(S-B)', 'Shallow Heap', 'Shallow Heap(S-B)', 'Retained Heap', 'Retained Heap(S-B)', 'Percentage', 'Percentage(S-B)'])
-	#Joining dom_thread
+	# Wait for dom_thread to finish
 	dom_thread.join()
 	print("\nThread OVER: ", len(all_data))
+	# Number of rows to print in compared dominator classes
+	num_rows = 50
 	# Comparing data from baseline and given hprof file and printing in form of table
 	for row in all_data:
 		className,objects,shallow_heap,retained_heap,percentage = row[:5]
@@ -124,18 +109,19 @@ if __name__ == '__main__':
 		table.add_row(new_row)
 	print("-"*100)
 	print("DOMINATOR TREE COMPARISON TABLE: ")
-	print(table.get_string(sort_key=operator.itemgetter(8,7), sortby='Percentage(S-B)', reversesort=True))
+	print(table.get_string(start=0, end=num_rows, sort_key=itemgetter(8,9), sortby='Percentage', reversesort=True))
 	print('-'*100)
 	print()
 	#compare top n classes
 	n = int(input("Enter the number of top classes to compare: "))
-	for i in range(min(n, len(all_data))):
-		temp_list = [ordinal(i+1), " dominator class is: ", '{'+', '.join(str(v) for v in all_data[i]) + '}', ", and its usage in basline is: ", '{'+', '.join(str(v) for v in baseline.get(all_data[i][0], (0,0,0,0)))+'}']
-		print(''.join(temp_list))
+	# for i in range(min(n, len(all_data))):
+	# 	temp_list = [ordinal(i+1), " dominator class is: ", '{'+', '.join(str(v) for v in all_data[i]) + '}', ", and its usage in basline is: ", '{'+', '.join(str(v) for v in baseline.get(all_data[i][0], (0,0,0,0)))+'}']
+	# 	print(''.join(temp_list))
+
 	#Add data to baseline
 	add_data_to_baseline(all_data, baseline)
+	
 	print('*'*100)
 	print('*'*100)
 	print('Elapsed time: ', time.process_time() - t)
 	print('Elapsed total time: ', time.time() - t1)
-	

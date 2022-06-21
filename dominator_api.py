@@ -2,11 +2,12 @@ import csv
 import os
 import glob
 from prettytable import PrettyTable
-import operator
+from operator import itemgetter
 import time
 
 ordinal = lambda n: "%d%s" % (n,"tsnrhtdd"[(n//10%10!=1)*(n%10<4)*n%10::4])
 
+#Function to load baseline from file taken from input and store in a dict
 def load_baseline():
 	baseline = {}
 	global baseline_path
@@ -20,24 +21,12 @@ def load_baseline():
 		count = int(next(csvr)[0])
 		for row in csvr:
 			baseline[row[0]] = row[1:5]
-			# baseline[row[0]][3] = float(baseline[row[0]][3])/100
 	return baseline
 
+#Function to update baseline as average for each entry
 def add_data_to_baseline(data, baseline):
 	global count
 	global baseline_path
-	# for val in data:
-	# 	key = val[0]
-	# 	base = [0,0,0,0.0]
-	# 	if key in baseline:
-	# 		base = list(map(float, baseline[key]))
-	# 	print(val, base, len(base))
-	# 	for i in range(4):
-	# 		base[i]*=count
-	# 		base[i]+= float(val[i+1])
-	# 		# print(val[i])
-	# 		base[i]/=(1 + count)
-	# 	baseline[key] = base
 	hash_val = {ele[0]:ele[1:] for ele in data}
 	for val in data:
 		if val[0] not in baseline:
@@ -51,7 +40,7 @@ def add_data_to_baseline(data, baseline):
 		baseline[key] = value
 	count += 1
 	print('baseline')
-	print(baseline)
+	# print(baseline)
 	sorted_total = sorted(baseline.items(), key = lambda x: x[1][3], reverse = True)
 	with open(baseline_path, 'w') as f:
 		csvr = csv.writer(f)
@@ -79,29 +68,22 @@ if __name__ == '__main__':
 	print('Running dominator_tree command using MAT api.')
 	os.system('/Applications/mat.app/Contents/Eclipse/ParseHeapDump.sh '+heap_filename+' -command="dominator_tree -groupBy BY_CLASS" -format=csv -unzip org.eclipse.mat.api:query')
 	csv_folder = heap_filename[:-6] + '_Query/pages'
-	# print(csv_folder)
 	filenames = glob.glob(csv_folder + '/*.csv')
-	# print(filenames)
 	all_data = []
 	for file in filenames:
 		with open(file, 'r') as f:
 			csvr = csv.reader(f)
 			header = next(csvr)
-			# print(header)
 			for row in csvr:
 				row[4]=float(row[4])*100
 				all_data.append(row)
 	print("\nLength: ", len(all_data))
 	baseline = {}
 	baseline = load_baseline()
-	# print("\nBaseline: ")
-	# print(baseline)
-	
-	# sort baseline and all_data
-	# sorted_baseline = sorted(baseline.items(), key = lambda x: x[1][3], reverse = True)
-	# all_data.sort(key = lambda x: (x[1][1], x[1][0]), reverse = True) -- Not necessary since input from mat is sorted
 	# Print tablular output
 	table = PrettyTable(['ClassName', 'Objects', 'Objects(S-B)', 'Shallow Heap', 'Shallow Heap(S-B)', 'Retained Heap', 'Retained Heap(S-B)', 'Percentage', 'Percentage(S-B)'])
+	# Number of rows to print in compared dominator classes
+	num_rows = 50
 	for row in all_data:
 		className,objects,shallow_heap,retained_heap,percentage = row[:5]
 		objects = int(objects)
@@ -112,7 +94,7 @@ if __name__ == '__main__':
 		table.add_row(new_row)
 	print("-"*100)
 	print("DOMINATOR TREE COMPARISON TABLE: ")
-	print(table.get_string(sort_key=operator.itemgetter(8,7), sortby='Percentage(S-B)', reversesort=True))
+	print(table.get_string(start=0, end=num_rows, sort_key=itemgetter(8,9), sortby='Percentage', reversesort=True))
 	print('-'*100)
 	print()
 	#compare top n classes
@@ -126,4 +108,3 @@ if __name__ == '__main__':
 	print('*'*100)
 	print('Elapsed CPU time: ', time.process_time() - t)
 	print('Elapsed total time: ', time.time() - t1)
-	
